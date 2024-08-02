@@ -3,8 +3,8 @@ on:
     branches:
       - 'dev'
     paths:
-      - 'services/*/rest'
-      - 'services/*/rpc'
+      - 'services/*/rest/**'
+      - 'services/*/rpc/**'
   workflow_dispatch:
 
 jobs:
