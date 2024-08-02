@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+package service;
+option go_package="./pb";
+
+service User {
+  // 创建用户
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+  // 根据用户ID查找指定用户
+  rpc FindSingleUserByUserID (FindSingleUserByUserIDRequest) returns (FindSingleUserByUserIDResponse);
+  // 根据用户名密码查找指定用户
+  rpc FindSingleUserByUsernameAndPassword (FindSingleUserByUsernameAndPasswordRequest) returns (FindSingleUserByUsernameAndPasswordResponse);
+  // 查找所有用户
+  rpc FindAllUser (FindAllUserRequest) returns (FindAllUserResponse);
+  // 删除用户
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
+  // 更新用户信息（包括邮箱、用户名称等）
+  rpc UpdateUserInfo (UpdateUserInfoRequest) returns (UpdateUserInfoResponse);
+  // 更新用户邮箱
+  rpc UpdateUserEmail (UpdateUserEmailRequest) returns (UpdateUserEmailResponse);
+  // 更新用户名称
+  rpc UpdateUserName (UpdateUserNameRequest) returns (UpdateUserNameResponse);
+  // 更新用户手机号
+  rpc UpdateUserPhone (UpdateUserPhoneRequest) returns (UpdateUserPhoneResponse);
+  // 更新用户员工号
+  rpc UpdateUserEmployeeNumber (UpdateUserEmployeeNumberRequest) returns (UpdateUserEmployeeNumberResponse);
+}
+message UserItem {
+  string name = 1; // 显示名
+  string userName = 2; // 用户名
+  string phone = 3; // 手机号
+  string email = 4; // 邮箱
+  string employeeNumber = 5; // 员工号
+  string avatar = 6; // 头像
+  bool isAdmin = 7; // 是否是管理员
+}
+
+message CreateUserRequest {
+  string name = 1; // 显示名
+  string userName = 2; // 用户名
+  string password = 3; // 用户名
+  string phone = 4; // 手机号
+  string email = 5; // 邮箱
+  string employeeNumber = 6; // 员工号
+}
+message CreateUserResponse {
+}
+
+message FindSingleUserByUserIDRequest {
+  uint32 userID = 1; // 用户ID
+}
+
+message FindSingleUserByUserIDResponse {
+  uint32 userID = 1; // 显示名
+  string name = 2; // 显示名
+  string userName = 3; // 用户名
+  string phone = 4; // 手机号
+  string email = 5; // 邮箱
+  string employeeNumber = 6; // 员工号
+  string avatar = 7; // 头像
+  bool isAdmin = 8; // 是否是管理员
+}
+
+message FindSingleUserByUsernameAndPasswordRequest {
+  string userName = 1; // 用户名
+  string password = 2; // 用户名
+}
+
+message FindSingleUserByUsernameAndPasswordResponse {
+  uint32 userID = 1; // 显示名
+  string name = 2; // 显示名
+  string userName = 3; // 用户名
+  string phone = 4; // 手机号
+  string email = 5; // 邮箱
+  string employeeNumber = 6; // 员工号
+  string avatar = 7; // 头像
+  bool isAdmin = 8; // 是否是管理员
+}
+
+message FindAllUserRequest {
+  uint32 userID = 1; // 用户ID
+}
+
+message FindAllUserResponse {
+  repeated UserItem userList = 1;
+}
+
+message DeleteUserRequest {
+  uint32 userID = 1; // 用户ID
+}
+
+message DeleteUserResponse {
+}
+
+message UpdateUserInfoRequest {
+  optional string name = 1; // 显示名
+  optional int64 phone = 3; // 手机号
+  optional string email = 4; // 邮箱
+  optional int64 employeeNumber = 5; // 员工号
+}
+message UpdateUserInfoResponse {
+}
+
+message UpdateUserEmailRequest {
+  uint32 userID = 1; // 用户ID
+  string email = 2; // 邮箱
+}
+
+message UpdateUserEmailResponse {
+}
+
+message UpdateUserNameRequest {
+  uint32 userID = 1; // 用户ID
+  string name = 2; // 显示名
+}
+
+message UpdateUserNameResponse {
+}
+
+message UpdateUserPhoneRequest {
+  uint32 userID = 1; // 用户ID
+  string phone = 3; // 手机号
+}
+
+message UpdateUserPhoneResponse {
+}
+
+message UpdateUserEmployeeNumberRequest {
+  uint32 userID = 1; // 用户ID
+  string employeeNumber = 5; // 员工号
+}
+
+message UpdateUserEmployeeNumberResponse {
+}
+
+// goctl rpc protoc user.proto --go_out=./ --go-grpc_out=./ --zrpc_out=. --style goZero

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package service;
+option go_package="./pb";
+
+// ==============================================ResourceGroup(资源组)===================================================
+message CreateResourceGroupRequest{}
+message CreateResourceGroupResponse{}
+service ResourceGroup {
+  // 创建资源组
+  rpc CreateResourceGroup (CreateResourceGroupRequest) returns (CreateResourceGroupResponse);
+}
+
+// ==============================================Category(资源分类)==================================================
+message CreateCategoryRequest{}
+message CreateCategoryResponse{}
+service Category {
+  // 创建资源类型
+  rpc CreateResourceType (CreateCategoryRequest) returns (CreateCategoryResponse);
+}
+
+// ==============================================Model(模型)=================================================
+message CreateModelRequest{}
+message CreateModelResponse{}
+service Model {
+  // 创建资源模型
+  rpc CreateResourceModel (CreateModelRequest) returns (CreateModelResponse);
+}
+
+// ==============================================Attribute(属性)=============================================
+message CreateAttributeRequest{}
+message CreateAttributeResponse{}
+service Attribute {
+  // 创建资源属性
+  rpc CreateResourceAttribute (CreateAttributeRequest) returns (CreateAttributeResponse);
+}
+
+// ==============================================AttributeType(资源属性类型)==============================================
+message CreateAttributeTypeRequest{}
+message CreateAttributeTypeResponse{}
+service AttributeType {
+  // 创建资源属性类型
+  rpc CreateAttributeType (CreateAttributeTypeRequest) returns (CreateAttributeTypeResponse);
+}
+
+// ==============================================Resource(资源)==============================================
+message CreateResourceRequest{}
+message CreateResourceResponse{}
+service Resource {
+  // 创建资源
+  rpc CreateResource (CreateResourceRequest) returns (CreateResourceResponse);
+}
+
+// goctl rpc protoc cmdb.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=. --style goZero -m

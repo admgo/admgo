@@ -1,0 +1,40 @@
+info (
+    title:   "user/token API"
+    desc:    "user的token.api文件"
+    author:  "KenleyWang"
+    date:    "2024 年 1 月 10 日"
+    version: "v1"
+)
+
+type TokenReq {
+    UserName string `json:"username,optional,omitempty" validate:"required"`
+    PassWord string `json:"password,optional,omitempty"`
+}
+
+type TokenRsp {}
+
+
+@server (
+    prefix:     /v1/user
+    group:      token
+    timeout:    10s
+    middleware: AuthenticationMiddleware,CSRFTokenMiddleware
+    maxBytes:   1048576
+    handler:    token
+)
+service User {
+    @handler getTokens
+    get /tokens (TokenReq) returns (TokenRsp)
+
+    @handler getSingleToken
+    get /token/:token_id (TokenReq) returns (TokenRsp)
+
+    @handler addToken
+    post /token (TokenReq) returns (TokenRsp)
+
+    @handler editToken
+    put /token/:token_id (TokenReq) returns (TokenRsp)
+
+    @handler deleteToken
+    delete /token/:token_id (TokenReq) returns (TokenRsp)
+}

@@ -1,0 +1,67 @@
+info (
+    title:   "user/user API"
+    desc:    "user的user.api文件"
+    author:  "KenleyWang"
+    date:    "2024 年 1 月 10 日"
+    version: "v1"
+)
+
+type LoginReq {
+    UserName string `json:"username,optional,omitempty" validate:"required"`
+    PassWord string `json:"password,optional,omitempty"`
+}
+
+type LoginRsp {}
+
+type RegisterReq {
+    UserName string `json:"username,optional,omitempty" validate:"required"`
+    PassWord string `json:"password,optional,omitempty"`
+}
+
+type RegisterRsp {}
+
+type LogoutReq {}
+
+type LogoutRsp {}
+
+////////////////////////////////////////register////////////////////////////////////////
+
+@server (
+    prefix:     /v1/user
+    group:      register
+    timeout:    10s
+    maxBytes:   1048576
+    handler:    register
+)
+service User {
+    @handler register
+    post /register (RegisterReq) returns (RegisterRsp)
+}
+
+////////////////////////////////////////Login////////////////////////////////////////
+@server (
+    prefix:   /v1/user
+    group:    login
+    timeout:  10s
+    maxBytes: 1048576
+    handler:  login
+)
+service User {
+    // 定义只有请求体的接口，如更新信息
+    @handler login
+    post /login (LoginReq) returns (LoginRsp)
+}
+////////////////////////////////////////Logout////////////////////////////////////////
+
+@server (
+    prefix:     /v1/user
+    group:      logout
+    timeout:    10s
+    middleware: AuthenticationMiddleware,CSRFTokenMiddleware
+    maxBytes:   1048576
+    handler:    logout
+)
+service User {
+    @handler logout
+    post /logout (LogoutReq) returns (LogoutRsp)
+}

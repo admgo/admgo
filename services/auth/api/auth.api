@@ -1,0 +1,52 @@
+syntax = "v1"
+
+info (
+	title:   "auth API"
+	desc:    "auth的api文件"
+	author:  "KenleyWang"
+	date:    "2023 年 12 月 29 日"
+	version: "v1"
+)
+
+type LoginReq {
+	UserName string `json:"username,optional,omitempty" validate:"required"`
+	PassWord string `json:"password,optional,omitempty"`
+}
+
+type LoginRsp {
+	PassWord string `json:"password,optional,omitempty"`
+}
+
+type LogoutReq {
+	UserName string `json:"username,optional,omitempty"`
+}
+
+type LogoutRsp {}
+
+////////////////////////////////////////Login////////////////////////////////////////
+@server (
+	prefix:   /auth/v1
+	group:    login
+	timeout:  10s
+	maxBytes: 1048576
+	handler:  login
+)
+service Auth {
+	// 定义只有请求体的接口，如更新信息
+	@handler login
+	post /login (LoginReq) returns (LoginRsp)
+}
+
+@server (
+	prefix:     /auth/v1
+	group:      logout
+	timeout:    10s
+	middleware: AuthenticationMiddleware,CSRFTokenMiddleware
+	maxBytes:   1048576
+	handler:    logout
+)
+service Auth {
+	@handler logout
+	post /logout (LogoutReq) returns (LogoutRsp)
+}
+

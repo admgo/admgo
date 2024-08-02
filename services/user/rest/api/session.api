@@ -1,0 +1,34 @@
+info (
+    title:   "user/session API"
+    desc:    "user的session.api文件"
+    author:  "KenleyWang"
+    date:    "2024 年 1 月 10 日"
+    version: "v1"
+)
+
+type SessionReq {
+    UserName string `json:"username,optional,omitempty" validate:"required"`
+    PassWord string `json:"password,optional,omitempty"`
+}
+
+type SessionRsp {}
+
+
+@server (
+    prefix:     /v1/user
+    group:      session
+    timeout:    10s
+    middleware: AuthenticationMiddleware,CSRFTokenMiddleware
+    maxBytes:   1048576
+    handler:    session
+)
+service User {
+    @handler getTSessions
+    get /sessions (SessionReq) returns (SessionRsp)
+
+    @handler getSingleSession
+    get /session/:session_id (SessionReq) returns (SessionRsp)
+
+    @handler deleteSession
+    delete /session/:session_id (SessionReq) returns (SessionRsp)
+}

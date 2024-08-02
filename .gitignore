@@ -1,0 +1,8 @@
+.idea
+.vscode/*
+.DS_Store
+**/.build
+**/etc/*
+!**/etc/template.yaml
+**/logs
+*.log

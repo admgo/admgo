@@ -1,0 +1,18 @@
+syntax = "v1"
+
+info (
+	title:   "user API"
+	desc:    "user的api文件"
+	author:  "KenleyWang"
+	date:    "2024 年 1 月 10 日"
+	version: "v1"
+)
+
+import (
+	"api/user.api"
+	"api/session.api"
+	"api/token.api"
+)
+
+// goctl api --api ./user.api go -dir ./ --style goZero
+
