@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: |
           go mod tidy
-          cd service/${{service}}/${{service_type}}
+          cd service/${{env.service}}/${{env.service_type}}
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-w -s" -o .build/app
 
       - name: Set up QEMU
@@ -41,7 +41,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v5
         with:
-          context: service/${{service}}/${{service_type}}
+          context: service/${{env.service}}/${{env.service_type}}
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
