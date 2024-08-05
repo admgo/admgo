@@ -21,10 +21,6 @@ jobs:
         with:
           go-version: '1.22.5'
 
-      - name: Test
-        run: |
-          git log
-
       - name: Get changed files
         id: changes
         env:
@@ -51,20 +47,10 @@ jobs:
         run: |
           echo "The changed project is ${{ steps.determine.outputs.project }}"
 
-      - name: Test
-        env:
-          EVENT_CONTEXT: ${{ toJSON(github.event) }}
-          event_path: ${{ github.event_path }}
-          event_name: ${{ github.event_name }}
-        run: |
-          echo $EVENT_CONTEXT
-          echo $event_path
-          echo $event_name
-
       - name: Build
         run: |
           go mod tidy
-          cd service/${{env.service}}/${{env.service_type}}
+          cd service/user/rpc
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-w -s" -o .build/app
 
       - name: Set up QEMU
@@ -83,8 +69,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v5
         with:
-          context: service/${{env.service}}/${{env.service_type}}
+          # context: service/${{env.service}}/${{env.service_type}}
+          context: service/user/rpc
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: admgo/admgo-${{env.service}}-${{env.service_type}}:0.0.1
+          tags: admgo/admgo-user-rpc:0.0.1
