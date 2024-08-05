@@ -19,11 +19,10 @@ jobs:
         with:
           go-version: '1.22.5'
 
-      - name: Set up GitHub CLI
-        uses: actions4gh/setup-gh@v1
-
       - name: Get changed files
         id: changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get the list of files changed in the commit
           files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files[].path')
