@@ -3,5 +3,5 @@ package main
 import "fmt"
 
 func TestCICD() {
-	fmt.Printf("test 2nd")
+	fmt.Printf("test 3rd")
 }
