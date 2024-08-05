@@ -22,8 +22,12 @@ jobs:
       - name: Test
         env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
+          event_path: ${{ github.event_path }}
+          event_name: ${{ github.event_name }}
         run: |
           echo $EVENT_CONTEXT
+          echo $event_path
+          echo $event_name
 
       - name: Build
         run: |
