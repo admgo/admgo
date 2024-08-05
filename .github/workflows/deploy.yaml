@@ -19,6 +19,32 @@ jobs:
         with:
           go-version: '1.22.5'
 
+      - name: Set up GitHub CLI
+        uses: actions/setup-gh@v2
+
+      - name: Get changed files
+        id: changes
+        run: |
+          # Get the list of files changed in the commit
+          files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files[].path')
+          echo "Changed files: $files"
+          # Save the list of changed files to an output variable
+          echo "::set-output name=files::$files"
+
+      - name: Determine which project triggered the workflow
+        run: |
+          if [[ "${{ steps.changes.outputs.files }}" == *"services/*/rest/**"* ]]; then
+            echo "Project rest was changed."
+            echo "::set-output name=project::rest"
+          elif [[ "${{ steps.changes.outputs.files }}" == *"services/*/rpc/**"* ]]; then
+            echo "Project rpc was changed."
+            echo "::set-output name=project::rpc"
+          fi
+
+      - name: Use the project output
+        run: |
+          echo "The changed project is ${{ steps.determine.outputs.project }}"
+
       - name: Test
         env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
