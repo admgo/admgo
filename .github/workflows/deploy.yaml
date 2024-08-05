@@ -20,7 +20,7 @@ jobs:
           go-version: '1.22.5'
 
       - name: Set up GitHub CLI
-        uses: actions/setup-gh@v2
+        uses: actions4gh/setup-gh@v1
 
       - name: Get changed files
         id: changes
