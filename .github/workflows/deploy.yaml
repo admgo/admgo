@@ -50,7 +50,7 @@ jobs:
       - name: Build
         run: |
           go mod tidy
-          cd service/user/rpc
+          cd services/user/rpc
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-w -s" -o .build/app
 
       - name: Set up QEMU
@@ -70,7 +70,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           # context: service/${{env.service}}/${{env.service_type}}
-          context: service/user/rpc
+          context: services/user/rpc
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
