@@ -25,10 +25,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get the list of files changed in the commit
-          files=$(gh pr view ${{ github.event.push.number }} --json files --jq '.files[].path')
+          echo "GITHUB_SHA: ${{ github.sha }}"
+          files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           echo "Changed files: $files"
           # Save the list of changed files to an output variable
-          echo "::set-output name=files::$files"
+          echo "files=$files" >> $GITHUB_ENV
 
       - name: Determine which project triggered the workflow
         run: |
